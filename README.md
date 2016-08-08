@@ -1,2 +1,1 @@
-# TWTools
-A Tribal Wars Tool
+# Tribal Wars Tools
