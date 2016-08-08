@@ -7,7 +7,7 @@
 **Coordinate extractor:** Extracts coordinates from given text.
 
 ### Planned Features
-Here is a list of planned features, any suggestions and all feedback is appreciated, and I will try to follow as many requests as possible.
+A list of planned features, any suggestions and all feedback is appreciated.
 
 - More filters for the Village Finder
 - Backtiming Calculator
@@ -16,9 +16,9 @@ Here is a list of planned features, any suggestions and all feedback is apprecia
 - Mass Attack Planner
 
 #### Other
-Currently only works for .us, .co.uk and .net. I will however add more servers if requested.
+Currently only works for .us, .co.uk and .net. More servers are to be added if requested enough.
 
-*Thanks to William for helping me with the graphics.*
+*Thanks to William for helping with graphics.*
 
 
 
