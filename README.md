@@ -6,10 +6,12 @@
 
 - **Coordinate extractor:** Extracts coordinates from given text.
 
+- **Backtiming Calculator:** Calculates the return time of attacks.
+
+
 ### Planned Features
 A list of planned features, any suggestions and all feedback is appreciated.
 
-- Backtiming Calculator
 - Farm Thief
 - Village Planner
 - Mass Attack Planner
@@ -17,6 +19,6 @@ A list of planned features, any suggestions and all feedback is appreciated.
 
 
 #### Other
-Currently only works for .us, .co.uk and .net. More servers are to be added if requested enough.
+Currently only works for .us, .co.uk and .net. All servers are to be added soon.
 
 *Thanks to William for helping with graphics.*
