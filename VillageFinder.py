@@ -83,7 +83,7 @@ class GoThread(QtCore.QThread):
 				coord = value[2] + "|" + value[3]
 				points = value[5]
 				table_data.append(["", "Barbarian village", coord, points])
-				coords = coords + coord + " "
+				coord_chunks.append(coord)
 		else:
 			for key, value in filtered_by_range.items():
 				player_id = int(value[4])
