@@ -2,7 +2,7 @@
 
 ### Current Features
 
-- **Village Finder:** Generates a list of coordinates (coordinates for scripts as well) when searching around a coordinate. Filters include: Minimum and max points, minimum and max range and players, barbarians or both.
+- **Village Finder:** Generates a list of villages (coordinates for scripts as well) when searching around a coordinate. Filters include: Minimum and max points, minimum and max range and players, barbarians or both.
 
 - **Coordinate extractor:** Extracts coordinates from given text.
 
