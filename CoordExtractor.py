@@ -48,15 +48,16 @@ class CoordExtractorDialog(QtGui.QDialog, CeUi):
 		self.other_window.show()
 		event.accept()
 
+	def showEvent(self, event):
+		geom = self.frameGeometry()
+		geom.moveCenter(QtGui.QCursor.pos())
+		self.setGeometry(geom)
+
+	def keyPressEvent(self, event):
+		if event.key() == QtCore.Qt.Key_Escape:
+			self.return_function()
+			event.accept()
+
 	def return_function(self):
 		self.other_window.show()
 		self.close()
-
-def main():
-	app = QtGui.QApplication(sys.argv)
-	form = Widget()
-	form.show()
-	app.exec_()
-
-if __name__ == "__main__":
-	main()

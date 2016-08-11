@@ -1,4 +1,4 @@
-__version__ = "0.41"
+__version__ = "0.5"
 __author__ = "ZeX2"
 
 from PySide import QtGui, QtCore
@@ -9,6 +9,7 @@ from Data import Files, TWData, Config_XML
 from datetime import datetime
 from CoordExtractor import CoordExtractorDialog
 from VillageFinder import VillageFinderDialog
+from BacktimingCalculator import BacktimingCalculatorDialog
 
 class DownloadThread(QtCore.QThread):
 	def __init__(self, url):
@@ -31,6 +32,8 @@ class DownloadThread(QtCore.QThread):
 
 		villages_data = directory + "\\" + "village.txt.gz"
 		players_data = directory + "\\" + "player.txt.gz"
+		config = directory + "\\" + "config.xml"
+
 		two_hours = 7200
 
 		if not (os.path.isfile(villages_data) and os.path.isfile(players_data)):
@@ -61,7 +64,7 @@ class DownloadThread(QtCore.QThread):
 			return
 
 		"""Emits signal with world data"""
-		world_data = [villages_dict, players_dict]
+		world_data = [villages_dict, players_dict, config]
 		self.emit(QtCore.SIGNAL("get_world_data(PyObject)"), world_data)
 
 class Window(QtGui.QMainWindow, MainUi):
@@ -71,10 +74,13 @@ class Window(QtGui.QMainWindow, MainUi):
 		self.setWindowIcon(QtGui.QIcon(Files.resource_path("images/icon.png")))
 		self.serverItems = Config_XML.server_box_items(Files.resource_path("config.xml"))
 		self.worldItems = Config_XML.world_box_items(Files.resource_path("config.xml"))
+
 		self.setupUi()
 		self.on_combo_activated(self.serverItems[0])
 		self.app_data_folder()
 		self.world_data = None
+
+		self.show()
 
 	def app_data_folder(self):
 		directory = Files.app_data_path()
@@ -88,6 +94,15 @@ class Window(QtGui.QMainWindow, MainUi):
 
 	def coord_extractor(self):
 		self.dialog = CoordExtractorDialog(self)
+		self.dialog.show()
+		self.hide()
+
+	def backtiming_calculator(self):
+		try:
+			config = self.world_data[2]
+		except:
+			config = None
+		self.dialog = BacktimingCalculatorDialog(self, config)
 		self.dialog.show()
 		self.hide()
 
@@ -119,8 +134,7 @@ class Window(QtGui.QMainWindow, MainUi):
 
 def main():
 	app = QtGui.QApplication(sys.argv)
-	form = Window()
-	form.show()
+	MainWindow = Window()
 	app.exec_()
 
 if __name__ == "__main__":

@@ -13,6 +13,7 @@ import time
 from design import VfUi
 from Data import TWData
 from Data import Files
+from CustomDesign import Validator
 
 class GoThread(QtCore.QThread):
 	def __init__(self, search_coord, type_, min_points, max_points, min_range, max_range, world_data):
@@ -121,7 +122,7 @@ class TableThread(QtCore.QThread):
 
 		self.emit(QtCore.SIGNAL("update_coords(PyObject)"), self.coords)
 
-class VillageFinderDialog(QtGui.QDialog, VfUi):
+class VillageFinderDialog(QtGui.QDialog, VfUi, Validator):
 	def __init__(self, other_window, world_data):
 		super(VillageFinderDialog, self).__init__()
 		self.setGeometry(50, 50, 850, 425)
@@ -131,6 +132,13 @@ class VillageFinderDialog(QtGui.QDialog, VfUi):
 		self.world_data = world_data
 		self.other_window = other_window
 		self.setupUi()
+
+		self.searchEdit.textChanged.connect(self.check_coord_state)
+
+		self.min_pointsEdit.setValidator(self.points_validator())
+		self.min_pointsEdit.textChanged.connect(self.check_points_state)
+		self.max_pointsEdit.setValidator(self.points_validator())
+		self.max_pointsEdit.textChanged.connect(self.check_points_state)
 
 	def go_function(self):
 		self.goButton.setEnabled(False)
@@ -221,15 +229,16 @@ class VillageFinderDialog(QtGui.QDialog, VfUi):
 		self.other_window.show()
 		event.accept()
 
+	def showEvent(self, event):
+		geom = self.frameGeometry()
+		geom.moveCenter(QtGui.QCursor.pos())
+		self.setGeometry(geom)
+
+	def keyPressEvent(self, event):
+		if event.key() == QtCore.Qt.Key_Escape:
+			self.return_function()
+			event.accept()
+
 	def return_function(self):
 		self.other_window.show()
 		self.close()
-
-def main():
-	app = QtGui.QApplication(sys.argv)
-	form = Window()
-	form.show()
-	app.exec_()
-
-if __name__ == "__main__":
-	main()

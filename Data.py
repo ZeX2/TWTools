@@ -34,7 +34,6 @@ class Config_XML(object):
 			if world.text == world_text:
 				return world.attrib["url"]
 
-
 class Files(object):
 	def resource_path(relative_path):
 		""" Get absolute path to resource, works for dev and for PyInstaller """
@@ -65,23 +64,41 @@ class TWData(object):
 	def download_data(path, url):
 		villages_url = url + "/map/village.txt.gz"
 		players_url = url + "/map/player.txt.gz"
+		config_url = url + "/interface.php?func=get_config"
 		url = url.replace("https://", "")
 
+		"""Village data"""
 		villages_save = path + "\\" + "village.txt.gz"
-		with open(villages_save, 'wb') as handle:
+		with open(villages_save, "wb") as handle:
 			response = requests.get(villages_url, stream = True)
 			if not response.ok:
 				pass
 			for block in response.iter_content(1024):
 				handle.write(block)
 
+		"""Player data"""
 		players_save = path + "\\" + "player.txt.gz"
-		with open(players_save, 'wb') as handle:
+		with open(players_save, "wb") as handle:
 			response = requests.get(players_url, stream = True)
 			if not response.ok:
 				pass
 			for block in response.iter_content(1024):
 				handle.write(block)
+
+		"""Config"""
+		config_save = path + "\\" + "config.xml"
+		with open(config_save, "wb") as handle:
+			response = requests.get(config_url, stream = True)
+			if not response.ok:
+				pass
+			for block in response.iter_content(1024):
+				handle.write(block)
+
+	def get_speed_data(xml_file):
+		servers = ET.parse(xml_file).getroot()
+		world_speed = servers.find(".//speed").text
+		unit_speed = servers.find(".//unit_speed").text
+		return [world_speed, unit_speed]
 
 	def get_villages_dict(villages_data):
 		#Villages dict to be returned

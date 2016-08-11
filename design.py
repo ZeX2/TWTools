@@ -5,6 +5,7 @@ from CustomDesign import PicButton
 
 class MainUi(object):
 	def setupUi(self):
+		"""Background color"""
 		self.backgroundPalette = QtGui.QPalette()
 		#color = QtGui.QColor(217, 204, 170)
 		self.backgroundColor = QtGui.QColor(238, 217, 174)
@@ -15,15 +16,15 @@ class MainUi(object):
 		self.setCentralWidget(self.centralwidget)
 		self.horizontalLayout = QtGui.QHBoxLayout(self.centralwidget)
 
-		#Spacer to the left
+		"""Spacer to the left"""
 		self.leftSpacer = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
 		self.horizontalLayout.addItem(self.leftSpacer)
 
-		#Main content
+		"""Main content"""
 		self.verticalLayout = QtGui.QVBoxLayout()
 		self.horizontalLayout.addLayout(self.verticalLayout)
 
-		#Main text picture
+		"""Main text picture"""
 		self.horizontalLayout_1 = QtGui.QHBoxLayout()
 		self.logo_textScene = QtGui.QGraphicsScene()
 		self.logo_textScene.addPixmap(QtGui.QPixmap(Files.resource_path("images/logo_text.png")))
@@ -37,7 +38,7 @@ class MainUi(object):
 		self.mainSpacer = QtGui.QSpacerItem(50, 50, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
 		self.verticalLayout.addItem(self.mainSpacer)
 
-		#Download options
+		"""Download options"""
 		self.downloadGrid = QtGui.QGridLayout(self.centralwidget)
 		self.serverLabel = QtGui.QLabel("Tribal Wars Servers", self.centralwidget)
 		self.serverBox = QtGui.QComboBox(self.centralwidget)
@@ -59,11 +60,11 @@ class MainUi(object):
 
 		self.verticalLayout.addLayout(self.downloadGrid)
 
-		#Spacer line
+		"""Spacer line"""
 		self.lineSpacer = QtGui.QSpacerItem(50, 50, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
 		self.verticalLayout.addItem(self.lineSpacer)
 
-		#Options row
+		"""Options row"""
 		self.horizontalLayout_3 = QtGui.QHBoxLayout()
 		self.verticalLayout.addLayout(self.horizontalLayout_3)
 
@@ -82,14 +83,14 @@ class MainUi(object):
 		self.horizontalLayout_3.addItem(self.spacer_1)
 
 		self.bcButton = PicButton(QtGui.QPixmap(Files.resource_path("images/backtiming_calculator.png")), QtGui.QPixmap(Files.resource_path("images/backtiming_calculator.png")), QtGui.QPixmap(Files.resource_path("images/backtiming_calculator.png")))
-		self.bcButton.clicked.connect(self.coming_soon)
+		self.bcButton.clicked.connect(self.backtiming_calculator)
 		self.horizontalLayout_3.addWidget(self.bcButton)
 
-		#Spacer buttons
+		"""Spacer buttons"""
 		self.spacer_buttons = QtGui.QSpacerItem(5, 5, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
 		self.verticalLayout.addItem(self.spacer_buttons)
 
-		#Options row 2
+		"""Options row 2"""
 		self.horizontalLayout_4 = QtGui.QHBoxLayout()
 		self.verticalLayout.addLayout(self.horizontalLayout_4)
 
@@ -110,7 +111,7 @@ class MainUi(object):
 		self.eButton = PicButton(QtGui.QPixmap(Files.resource_path("images/empty.png")), QtGui.QPixmap(Files.resource_path("images/empty.png")), QtGui.QPixmap(Files.resource_path("images/empty.png")))
 		self.horizontalLayout_4.addWidget(self.eButton)
 
-		#Spacer2 to the right
+		"""Spacer2 to the right"""
 		self.horizontalSpacer_2 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
 		self.horizontalLayout.addItem(self.horizontalSpacer_2)
 
@@ -134,6 +135,14 @@ class VfUi(object):
 		self.buttonSpacer = QtGui.QSpacerItem(0, 0, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
 		self.buttonLayout.addItem(self.buttonSpacer)
 
+		"""Line Spacer and line"""
+		self.lineSpacer = QtGui.QSpacerItem(40, 5, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+		self.verticalLayout.addItem(self.lineSpacer)
+		self.line = QtGui.QFrame(self)
+		self.line.setFrameShape(QtGui.QFrame.HLine)
+		self.line.setFrameShadow(QtGui.QFrame.Sunken)
+		self.verticalLayout.addWidget(self.line)
+
 		"""Layout for form and table"""
 		self.horizontalLayout = QtGui.QHBoxLayout()
 		self.verticalLayout.addLayout(self.horizontalLayout)
@@ -152,8 +161,8 @@ class VfUi(object):
 		self.formLayout.setWidget(0, QtGui.QFormLayout.FieldRole, self.searchEdit)
 
 		"""Spacer Form[1]"""
-		Spacer1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-		self.formLayout.setItem(1, QtGui.QFormLayout.FieldRole, Spacer1)
+		self.Spacer1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+		self.formLayout.setItem(1, QtGui.QFormLayout.FieldRole, self.Spacer1)
 		
 		"""Filter by Form[2]"""
 		self.filterLabel = QtGui.QLabel("Filter by", self)
@@ -257,6 +266,14 @@ class CeUi(object):
 		self.buttonSpacer = QtGui.QSpacerItem(0, 0, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
 		self.buttonLayout.addItem(self.buttonSpacer)
 
+		"""Line Spacer and line"""
+		self.lineSpacer = QtGui.QSpacerItem(40, 5, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+		self.verticalLayout.addItem(self.lineSpacer)
+		self.line = QtGui.QFrame(self)
+		self.line.setFrameShape(QtGui.QFrame.HLine)
+		self.line.setFrameShadow(QtGui.QFrame.Sunken)
+		self.verticalLayout.addWidget(self.line)
+
 		"""Text input label and edit"""
 		self.Spacer = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
 		self.verticalLayout.addItem(self.Spacer)
@@ -281,3 +298,134 @@ class CeUi(object):
 		self.extractButton = QtGui.QPushButton("  Extract Coordinates  ", self)
 		self.extractButton.clicked.connect(self.extract_function)
 		self.horizontalLayout.addWidget(self.extractButton)
+
+class BcUi(object):
+	def setupUi(self):
+		"""Background color"""
+		self.backgroundPalette = QtGui.QPalette()
+		self.backgroundColor = QtGui.QColor(217, 204, 170)
+		self.backgroundPalette.setColor(QtGui.QPalette.Background, self.backgroundColor)
+		self.setPalette(self.backgroundPalette)
+
+		"""Main layout & return to main menu button"""
+		self.verticalLayout = QtGui.QVBoxLayout(self)
+
+		self.buttonLayout = QtGui.QHBoxLayout(self)
+		self.verticalLayout.addLayout(self.buttonLayout)
+		self.returnButton = QtGui.QPushButton("  Return to the Main Menu  ", self)
+		self.returnButton.clicked.connect(self.return_function)
+		self.buttonLayout.addWidget(self.returnButton)
+		self.buttonSpacer = QtGui.QSpacerItem(0, 0, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+		self.buttonLayout.addItem(self.buttonSpacer)
+
+		"""Line Spacer and line"""
+		self.lineSpacer = QtGui.QSpacerItem(40, 5, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+		self.verticalLayout.addItem(self.lineSpacer)
+		self.line = QtGui.QFrame(self)
+		self.line.setFrameShape(QtGui.QFrame.HLine)
+		self.line.setFrameShadow(QtGui.QFrame.Sunken)
+		self.verticalLayout.addWidget(self.line)
+
+		"""Settings radio buttons"""
+		self.horizontalLayout_2 = QtGui.QHBoxLayout()
+		self.verticalLayout.addLayout(self.horizontalLayout_2)
+		self.verticalLayout_2 = QtGui.QVBoxLayout()
+		self.horizontalLayout_2.addLayout(self.verticalLayout_2)
+
+		self.selected_worldRadio = QtGui.QRadioButton(self)
+		self.selected_worldRadio.setText("Use Selected World")
+		self.selected_worldRadio.toggled.connect(self.selected_function)
+		self.verticalLayout_2.addWidget(self.selected_worldRadio)
+
+		self.manual_speedRadio = QtGui.QRadioButton(self)
+		self.manual_speedRadio.setText("Input Speed Manually")
+		self.manual_speedRadio.toggled.connect(self.manual_function)
+		self.verticalLayout_2.addWidget(self.manual_speedRadio)
+
+		"""Speed labels"""
+		self.speed_labelsLayout = QtGui.QVBoxLayout()
+		self.horizontalLayout_2.addLayout(self.speed_labelsLayout)
+
+		self.world_speedLabel = QtGui.QLabel(self)
+		self.world_speedLabel.setText("World Speed: 0")
+		self.speed_labelsLayout.addWidget(self.world_speedLabel)
+
+		self.unit_speedLabel = QtGui.QLabel(self)
+		self.unit_speedLabel.setText("Unit Speed: 0")
+		self.speed_labelsLayout.addWidget(self.unit_speedLabel)
+
+		"""Spacer"""
+		self.Spacer = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+		self.verticalLayout.addItem(self.Spacer)
+
+		"""Botton layout"""
+		self.horizontalLayout_3 = QtGui.QHBoxLayout()
+		self.verticalLayout.addLayout(self.horizontalLayout_3)
+
+		"""Bottom left layout"""
+		self.verticalLayout_4 = QtGui.QVBoxLayout()
+		self.horizontalLayout_3.addLayout(self.verticalLayout_4)
+
+		"""Settings layout"""
+		self.horizontalLayout_4 = QtGui.QHBoxLayout()
+		self.verticalLayout_4.addLayout(self.horizontalLayout_4)
+
+		"""Origin and destination"""
+		self.verticalLayout_6 = QtGui.QVBoxLayout()
+		self.horizontalLayout_4.addLayout(self.verticalLayout_6)
+
+		self.originLabel = QtGui.QLabel(self)
+		self.originLabel.setText("Origin:")
+		self.verticalLayout_6.addWidget(self.originLabel)
+
+		self.originEdit = QtGui.QLineEdit(self)
+		self.originEdit.setText("500|500")
+		self.verticalLayout_6.addWidget(self.originEdit)
+
+		self.destinationLabel = QtGui.QLabel(self)
+		self.destinationLabel.setText("Destination:")
+		self.verticalLayout_6.addWidget(self.destinationLabel)
+
+		self.destinationEdit = QtGui.QLineEdit(self)
+		self.destinationEdit.setText("550|550")
+		self.verticalLayout_6.addWidget(self.destinationEdit)
+
+		"""Unit and arrival"""
+		self.verticalLayout_7 = QtGui.QVBoxLayout()
+		self.horizontalLayout_4.addLayout(self.verticalLayout_7)
+
+		self.unitLabel = QtGui.QLabel(self)
+		self.unitLabel.setText("Unit:")
+		self.verticalLayout_7.addWidget(self.unitLabel)
+
+		self.unitBox = QtGui.QComboBox(self)
+		self.unitBox.addItem("Spear fighter")
+		self.unitBox.addItem("Swordsman")
+		self.unitBox.addItem("Axeman")
+		self.unitBox.addItem("Archer")
+		self.unitBox.addItem("Scout")
+		self.unitBox.addItem("Light cavalry")
+		self.unitBox.addItem("Mounted archer")
+		self.unitBox.addItem("Heavy cavalry")
+		self.unitBox.addItem("Ram")
+		self.unitBox.addItem("Catapult")
+		self.unitBox.addItem("Paladin")
+		self.unitBox.addItem("Nobleman")
+
+		self.verticalLayout_7.addWidget(self.unitBox)
+
+		self.arrivalLabel = QtGui.QLabel(self)
+		self.arrivalLabel.setText("Arrival:")
+		self.verticalLayout_7.addWidget(self.arrivalLabel)
+
+		self.arrivalEdit = QtGui.QDateTimeEdit(self)
+		self.verticalLayout_7.addWidget(self.arrivalEdit)
+
+		"""Button and text edit"""
+		self.calculateButton = QtGui.QPushButton(self)
+		self.calculateButton.setText("Calculate Backtime")
+		self.calculateButton.clicked.connect(self.backtime_function)
+		self.verticalLayout_4.addWidget(self.calculateButton)
+
+		self.backtimeEdit = QtGui.QTextEdit(self)
+		self.horizontalLayout_3.addWidget(self.backtimeEdit)
