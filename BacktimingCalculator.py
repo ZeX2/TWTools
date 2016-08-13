@@ -90,13 +90,15 @@ class BacktimingCalculatorDialog(QtGui.QDialog, BcUi, Validator):
 		self.unit_speedLabel.setText("Unit Speed: " + str(self.unit_speed))
 
 	def backtime_function(self):
-		#self.calculateButton.setEnabled(False)
+		self.calculateButton.setEnabled(False)
+
 		world_speed = self.world_speed
 		unit_speed = self.unit_speed
 		origin = self.originEdit.text()
 		destination = self.destinationEdit.text()
 		unit = self.unitBox.currentIndex()
 		arrival = self.arrivalEdit.dateTime()
+
 		self.get_backtime_thread = BacktimeThread(world_speed, unit_speed, origin, destination, unit, arrival)
 		self.connect(self.get_backtime_thread, QtCore.SIGNAL("update_backtime(PyObject)"), self.update_backtime)
 		self.get_backtime_thread.start()
@@ -107,6 +109,8 @@ class BacktimingCalculatorDialog(QtGui.QDialog, BcUi, Validator):
 	
 		text = "The troops return to " + origin + " at " + backtime.strftime("%Y-%m-%d %H:%M:%S")
 		self.backtimeEdit.setText(text)
+
+		self.calculateButton.setEnabled(True)
 
 	def closeEvent(self, event):
 		self.other_window.show()

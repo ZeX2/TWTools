@@ -1,7 +1,9 @@
 from PySide import QtGui, QtCore
 from Data import Files
 
+
 class PicButton(QtGui.QAbstractButton):
+
     def __init__(self, pixmap, pixmap_hover, pixmap_pressed, parent=None):
         super(PicButton, self).__init__(parent)
         self.pixmap = pixmap
@@ -28,7 +30,9 @@ class PicButton(QtGui.QAbstractButton):
     def sizeHint(self):
         return self.pixmap.size()
 
+
 class Validator(object):
+
     def check_points_state(self):
         sender = self.sender()
         text = sender.text()
@@ -39,7 +43,8 @@ class Validator(object):
             if int(text) > 12393:
                 sender.setText("12393")
             elif int(text) < 26:
-                sender.setStyleSheet('QLineEdit { background-color: %s }' % red)
+                sender.setStyleSheet(
+                    'QLineEdit { background-color: %s }' % red)
         except:
             pass
 
@@ -62,7 +67,9 @@ class Validator(object):
             red = '#f6989d'
             sender.setStyleSheet('QLineEdit { background-color: %s }' % red)
 
+
 class CustomInputDialog(QtGui.QDialog):
+
     def __init__(self, parent=None):
         QtGui.QDialog.__init__(self, parent)
         """Bruh"""
