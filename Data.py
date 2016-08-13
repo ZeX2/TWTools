@@ -9,6 +9,7 @@ from time import mktime, localtime
 from datetime import datetime
 import xml.etree.ElementTree as ET
 
+import appdirs
 
 class Config_XML(object):
 
@@ -50,7 +51,8 @@ class Files(object):
         if sys.platform == 'win32':
             app_data = path.join(environ['APPDATA'], app_name)
         else:
-            app_data = path.expanduser(path.join("~", "." + app_name))
+            app_data = appdirs.user_data_dir(app_name, "", roaming=True)
+            #app_data = path.expanduser(path.join("~", "." + app_name))
         return app_data
 
     def modified_time(file):
