@@ -1,9 +1,9 @@
 from PySide import QtGui, QtCore
-from design import CeUi
 import sys
-from Data import Files
 import re
 
+from design import CeUi
+from Functions import resource_path
 
 class ExtractThread(QtCore.QThread):
 
@@ -29,10 +29,6 @@ class CoordExtractorDialog(QtGui.QDialog, CeUi):
 
     def __init__(self, other_window):
         super(CoordExtractorDialog, self).__init__()
-        self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-        self.setGeometry(50, 50, 850, 425)
-        self.setWindowTitle("ZeZe's TWTools - Coord Extractor")
-        self.setWindowIcon(QtGui.QIcon(Files.resource_path("images/icon.png")))
         self.other_window = other_window
         self.setupUi()
 

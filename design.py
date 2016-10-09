@@ -1,15 +1,17 @@
 from PySide import QtGui, QtCore
 import os
-from Data import Files, Config_XML
 from CustomDesign import PicButton
-
+from Functions import resource_path
 
 class MainUi(object):
 
     def setupUi(self):
+        """Bruh"""
+        self.setWindowTitle("ZeZe's TWTools")
+        self.setWindowIcon(QtGui.QIcon(resource_path("images/icon.png")))
+
         """Background color"""
         self.backgroundPalette = QtGui.QPalette()
-        #color = QtGui.QColor(217, 204, 170)
         self.backgroundColor = QtGui.QColor(238, 217, 174)
         self.backgroundPalette.setColor(QtGui.QPalette.Background, self.backgroundColor)
         self.setPalette(self.backgroundPalette)
@@ -29,7 +31,7 @@ class MainUi(object):
         """Main text picture"""
         self.horizontalLayout_1 = QtGui.QHBoxLayout()
         self.logo_textScene = QtGui.QGraphicsScene()
-        self.logo_textScene.addPixmap(QtGui.QPixmap(Files.resource_path("images/logo_text.png")))
+        self.logo_textScene.addPixmap(QtGui.QPixmap(resource_path("images/logo_text.png")))
         self.logo_textView = QtGui.QGraphicsView(self.logo_textScene, self.centralwidget)
         self.logo_textView.setFixedSize(565, 175)
         self.logo_textView.setStyleSheet("border: 0px; background-color: transparent;")
@@ -72,11 +74,11 @@ class MainUi(object):
 
         self.vfButton = PicButton(
             QtGui.QPixmap(
-                Files.resource_path("images/village_finder.png")),
+                resource_path("images/village_finder.png")),
             QtGui.QPixmap(
-                Files.resource_path("images/village_finder.png")),
+                resource_path("images/village_finder.png")),
             QtGui.QPixmap(
-                Files.resource_path("images/village_finder.png")))
+                resource_path("images/village_finder.png")))
         self.vfButton.clicked.connect(self.village_finder)
         self.horizontalLayout_3.addWidget(self.vfButton)
 
@@ -86,11 +88,11 @@ class MainUi(object):
 
         self.ceButton = PicButton(
             QtGui.QPixmap(
-                Files.resource_path("images/coordinates_extractor.png")),
+                resource_path("images/coordinates_extractor.png")),
             QtGui.QPixmap(
-                Files.resource_path("images/coordinates_extractor.png")),
+                resource_path("images/coordinates_extractor.png")),
             QtGui.QPixmap(
-                Files.resource_path("images/coordinates_extractor.png")))
+                resource_path("images/coordinates_extractor.png")))
         self.ceButton.clicked.connect(self.coord_extractor)
         self.horizontalLayout_3.addWidget(self.ceButton)
 
@@ -100,11 +102,11 @@ class MainUi(object):
 
         self.bcButton = PicButton(
             QtGui.QPixmap(
-                Files.resource_path("images/backtiming_calculator.png")),
+                resource_path("images/backtiming_calculator.png")),
             QtGui.QPixmap(
-                Files.resource_path("images/backtiming_calculator.png")),
+                resource_path("images/backtiming_calculator.png")),
             QtGui.QPixmap(
-                Files.resource_path("images/backtiming_calculator.png")))
+                resource_path("images/backtiming_calculator.png")))
         self.bcButton.clicked.connect(self.backtiming_calculator)
         self.horizontalLayout_3.addWidget(self.bcButton)
 
@@ -119,11 +121,11 @@ class MainUi(object):
 
         self.ftButton = PicButton(
             QtGui.QPixmap(
-                Files.resource_path("images/farm_thief.png")),
+                resource_path("images/farm_thief.png")),
             QtGui.QPixmap(
-                Files.resource_path("images/farm_thief.png")),
+                resource_path("images/farm_thief.png")),
             QtGui.QPixmap(
-                Files.resource_path("images/farm_thief.png")))
+                resource_path("images/farm_thief.png")))
         self.ftButton.clicked.connect(self.coming_soon)
         self.horizontalLayout_4.addWidget(self.ftButton)
 
@@ -133,11 +135,11 @@ class MainUi(object):
 
         self.vpButton = PicButton(
             QtGui.QPixmap(
-                Files.resource_path("images/village_planner.png")),
+                resource_path("images/village_planner.png")),
             QtGui.QPixmap(
-                Files.resource_path("images/village_planner.png")),
+                resource_path("images/village_planner.png")),
             QtGui.QPixmap(
-                Files.resource_path("images/village_planner.png")))
+                resource_path("images/village_planner.png")))
         self.vpButton.clicked.connect(self.coming_soon)
         self.horizontalLayout_4.addWidget(self.vpButton)
 
@@ -147,11 +149,11 @@ class MainUi(object):
 
         self.eButton = PicButton(
             QtGui.QPixmap(
-                Files.resource_path("images/empty.png")),
+                resource_path("images/empty.png")),
             QtGui.QPixmap(
-                Files.resource_path("images/empty.png")),
+                resource_path("images/empty.png")),
             QtGui.QPixmap(
-                Files.resource_path("images/empty.png")))
+                resource_path("images/empty.png")))
         self.horizontalLayout_4.addWidget(self.eButton)
 
         """Spacer2 to the right"""
@@ -162,6 +164,12 @@ class MainUi(object):
 class VfUi(object):
 
     def setupUi(self):
+        """Bruh"""
+        self.setGeometry(50, 50, 850, 425)
+        self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+        self.setWindowTitle("ZeZe's TWTools")
+        self.setWindowIcon(QtGui.QIcon(resource_path("images/icon.png")))
+
         """Set background color"""
         self.backgroundPalette = QtGui.QPalette()
         self.backgroundColor = QtGui.QColor(217, 204, 170)
@@ -195,7 +203,6 @@ class VfUi(object):
         """Layout for form"""
         self.formLayout = QtGui.QFormLayout()
         self.horizontalLayout.addLayout(self.formLayout)
-        # self.formLayout.setFieldGrowthPolicy(QtGui.QFormLayout.AllNonFixedFieldsGrow)
 
         """Search around Form[0]"""
         self.searchLabel = QtGui.QLabel("Search around", self)
@@ -257,7 +264,7 @@ class VfUi(object):
 
         """Picture Form[8]"""
         self.testLabel = QtGui.QLabel(self)
-        self.pixmap = QtGui.QPixmap(Files.resource_path("images/pic.jpg"))
+        self.pixmap = QtGui.QPixmap(resource_path("images/pic.jpg"))
         self.testLabel.setPixmap(self.pixmap)
         self.formLayout.setWidget(8, QtGui.QFormLayout.FieldRole, self.testLabel)
 
@@ -356,6 +363,12 @@ class VfUi(object):
 class CeUi(object):
 
     def setupUi(self):
+        """Bruh"""
+        self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+        self.setGeometry(50, 50, 850, 425)
+        self.setWindowTitle("ZeZe's TWTools - Coord Extractor")
+        self.setWindowIcon(QtGui.QIcon(resource_path("images/icon.png")))
+
         """Background color"""
         self.backgroundPalette = QtGui.QPalette()
         self.backgroundColor = QtGui.QColor(217, 204, 170)
@@ -410,6 +423,12 @@ class CeUi(object):
 class BcUi(object):
 
     def setupUi(self):
+        """Bruh"""
+        self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+        self.setGeometry(50, 50, 600, 300)
+        self.setWindowTitle("ZeZe's TWTools - Backtiming Calculator")
+        self.setWindowIcon(QtGui.QIcon(resource_path("images/icon.png")))
+
         """Background color"""
         self.backgroundPalette = QtGui.QPalette()
         self.backgroundColor = QtGui.QColor(217, 204, 170)
@@ -455,11 +474,11 @@ class BcUi(object):
         self.horizontalLayout_2.addLayout(self.speed_labelsLayout)
 
         self.world_speedLabel = QtGui.QLabel(self)
-        self.world_speedLabel.setText("World Speed: 0")
+        self.world_speedLabel.setText("World Speed:")
         self.speed_labelsLayout.addWidget(self.world_speedLabel)
 
         self.unit_speedLabel = QtGui.QLabel(self)
-        self.unit_speedLabel.setText("Unit Speed: 0")
+        self.unit_speedLabel.setText("Unit Speed:")
         self.speed_labelsLayout.addWidget(self.unit_speedLabel)
 
         """Spacer"""
@@ -537,3 +556,95 @@ class BcUi(object):
 
         self.backtimeEdit = QtGui.QTextEdit(self)
         self.horizontalLayout_3.addWidget(self.backtimeEdit)
+
+class SidUi(object):
+
+    def setupUi(self):
+        """Bruh"""
+        self.setGeometry(50, 50, 300, 150)
+        self.setWindowTitle("ZeZe's TWTools - Input Speeds")
+        self.setWindowIcon(QtGui.QIcon(resource_path("images/icon.png")))
+
+        """Background color"""
+        self.backgroundPalette = QtGui.QPalette()
+        self.backgroundColor = QtGui.QColor(217, 204, 170)
+        self.backgroundPalette.setColor(QtGui.QPalette.Background, self.backgroundColor)
+        self.setPalette(self.backgroundPalette)
+
+        """Form layout"""
+        self.formLayout = QtGui.QFormLayout(self)
+        self.formLayout.setFieldGrowthPolicy(QtGui.QFormLayout.AllNonFixedFieldsGrow)
+
+        """World speed label & input box"""
+        self.world_speedLabel = QtGui.QLabel("World Speed:", self)
+        self.formLayout.setWidget(0, QtGui.QFormLayout.LabelRole, self.world_speedLabel)
+
+        self.world_speedBox = QtGui.QDoubleSpinBox(self)
+        self.world_speedBox.setDecimals(1)
+        self.world_speedBox.setMaximum(1000.0)
+        self.world_speedBox.setSingleStep(0.5)
+        self.world_speedBox.setProperty("value", 1.0)
+        self.formLayout.setWidget(0, QtGui.QFormLayout.FieldRole, self.world_speedBox)
+
+        """Unit speed label & input box"""
+        self.unit_speedLabel = QtGui.QLabel("Unit Speed:", self)
+        self.formLayout.setWidget(1, QtGui.QFormLayout.LabelRole, self.unit_speedLabel)
+
+        self.unit_speedBox = QtGui.QDoubleSpinBox(self)
+        self.unit_speedBox.setDecimals(1)
+        self.unit_speedBox.setMaximum(1000.0)
+        self.unit_speedBox.setSingleStep(0.5)
+        self.unit_speedBox.setProperty("value", 1.0)
+        self.formLayout.setWidget(1, QtGui.QFormLayout.FieldRole, self.unit_speedBox)
+
+        """Spacer"""
+        self.Spacer = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.formLayout.setItem(2, QtGui.QFormLayout.FieldRole, self.Spacer)
+
+        """Ok button"""
+        self.okButton = QtGui.QPushButton("Ok", self)
+        self.formLayout.setWidget(3, QtGui.QFormLayout.FieldRole, self.okButton)
+        self.okButton.clicked.connect(self.get_data)
+
+class DdUi(object):
+
+    def setupUi(self):
+        """Bruh"""
+        self.setGeometry(50, 50, 450, 250)
+        self.setWindowTitle("ZeZe's TWTools - Updating Servers")
+        self.setWindowIcon(QtGui.QIcon(resource_path("images/icon.png")))
+
+        """Background color"""
+        self.backgroundPalette = QtGui.QPalette()
+        self.backgroundColor = QtGui.QColor(217, 204, 170)
+        self.backgroundPalette.setColor(QtGui.QPalette.Background, self.backgroundColor)
+        self.setPalette(self.backgroundPalette)
+
+        """Layout"""
+        self.verticalLayout = QtGui.QVBoxLayout(self)
+
+        self.text = QtGui.QLabel("Updating server list:")
+        self.verticalLayout.addWidget(self.text)
+
+        """Download bar"""
+        self.progress_bar = QtGui.QProgressBar(self)
+        self.progress_bar.setMinimum(0)
+        self.progress_bar.setMaximum(28)
+        self.progress_bar.setValue(0)
+        self.progress_bar.setFormat("%v / %m")
+        self.verticalLayout.addWidget(self.progress_bar)
+
+        """Text browser for progress"""
+        self.progress_text = QtGui.QTextBrowser(self)
+        self.verticalLayout.addWidget(self.progress_text)
+
+        """Button"""
+        self.horizontalLayout = QtGui.QHBoxLayout(self)
+        self.verticalLayout.addLayout(self.horizontalLayout)
+
+        self.Spacer = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(self.Spacer)
+
+        self.cancelButton = QtGui.QPushButton("Cancel")
+        self.horizontalLayout.addWidget(self.cancelButton)
+        self.cancelButton.clicked.connect(self.cancel_function)

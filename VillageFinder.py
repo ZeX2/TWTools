@@ -11,9 +11,9 @@ import re
 import time
 
 from design import VfUi
-from Data import TWData
-from Data import Files
+from WorldsData import TWData
 from CustomDesign import Validator
+from Functions import resource_path
 
 
 class GoThread(QtCore.QThread):
@@ -183,10 +183,6 @@ class VillageFinderDialog(QtGui.QDialog, VfUi, Validator):
 
     def __init__(self, other_window, world_data):
         super(VillageFinderDialog, self).__init__()
-        self.setGeometry(50, 50, 850, 425)
-        self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-        self.setWindowTitle("ZeZe's TWTools")
-        self.setWindowIcon(QtGui.QIcon(Files.resource_path("images/icon.png")))
         self.world_data = world_data
         self.other_window = other_window
         self.gui_data = None
@@ -198,8 +194,6 @@ class VillageFinderDialog(QtGui.QDialog, VfUi, Validator):
         self.min_pointsEdit.textChanged.connect(self.check_points_state)
         self.max_pointsEdit.setValidator(self.points_validator())
         self.max_pointsEdit.textChanged.connect(self.check_points_state)
-
-
 
     def go_function(self):
         self.goButton.setEnabled(False)

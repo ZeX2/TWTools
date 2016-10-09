@@ -1,16 +1,23 @@
-__version__ = "0.5.2"
+__version__ = "0.5.3"
 __author__ = "ZeX2"
 
 from PySide import QtGui, QtCore
 from design import MainUi
 import sys
 import os
-from Data import Files, TWData, Config_XML
+from WorldsData import TWData
 from datetime import datetime
 from CoordExtractor import CoordExtractorDialog
 from VillageFinder import VillageFinderDialog
 from BacktimingCalculator import BacktimingCalculatorDialog
+from ServersData import servers
+from Functions import modified_time, app_data, resource_path, world_dir, update_needed
+from CustomDialogs import ServersDownloadDialog
+import collections
+import json
+import requests
 
+app_data_path = app_data()
 
 class DownloadThread(QtCore.QThread):
 
@@ -29,68 +36,96 @@ class DownloadThread(QtCore.QThread):
         Creates a dict of all players in the world
         """
 
-        app_data_path = Files.app_data_path()
-        directory = Files.make_data_dir(app_data_path, self.url)
+        world_directory = world_dir(app_data_path, self.url)
 
-        villages_data = directory + "\\" + "village.txt.gz"
-        players_data = directory + "\\" + "player.txt.gz"
-        config = directory + "\\" + "config.xml"
+        villages_data_path = os.path.join(world_directory, "village.txt.gz")
+        players_data_path = os.path.join(world_directory, "player.txt.gz")
+        config_path = os.path.join(world_directory, "config.xml")
 
         two_hours = 7200
 
-        if not (os.path.isfile(villages_data)
-                and os.path.isfile(players_data)):
+        if not ((os.path.isfile(villages_data_path)) and (os.path.isfile(players_data_path)) and (os.path.isfile(config_path))):
             try:
-                TWData.download_data(directory, self.url)
-            except:
-                self.emit(QtCore.SIGNAL("download_error()"))
+                TWData.download_data(world_directory, self.url)
+            except requests.exceptions.ConnectionError:
+                error_text = "Please check your internet connection. For further help contact the author."
+                self.emit(QtCore.SIGNAL("download_error(PyObject)"), error_text)
+                return
+            except requests.exceptions.Timeout:
+                error_text = "The connection timed out. Please try again.."
+                self.emit(QtCore.SIGNAL("download_error(PyObject)"), error_text)
+                return
+            except requests.exceptions.HTTPError as e:
+                print(e)
+                error_text = "An invalid HTTP response occured, check your internet connection. For further help contact the author."
+                self.emit(QtCore.SIGNAL("download_error(PyObject)"), error_text)
+                return
+            except requests.exceptions.RequestException as e:
+                print(e)
+                error_text = "An unknown network error occured, contact the author of the program on the Tribal Wars forums."
+                self.emit(QtCore.SIGNAL("download_error(PyObject)"), error_text)
                 return
         else:
-            villages_modified_time = Files.modified_time(villages_data)
-            players_modified_time = Files.modified_time(players_data)
+            villages_modified_time = modified_time(villages_data_path)
+            players_modified_time = modified_time(players_data_path)
             current_time = datetime.now()
             difference1 = current_time - villages_modified_time
             difference2 = current_time - players_modified_time
 
             if difference1.seconds > two_hours or difference2.seconds > two_hours:
                 try:
-                    TWData.download_data(directory, self.url)
-                except:
-                    self.emit(QtCore.SIGNAL("download_error()"))
+                    TWData.download_data(world_directory, self.url)
+                except requests.exceptions.ConnectionError:
+                    error_text = "Please check your internet connection. For further help contact the author."
+                    self.emit(QtCore.SIGNAL("download_error(PyObject)"), error_text)
+                    return
+                except requests.exceptions.Timeout:
+                    error_text = "The connection timed out. Please try again."
+                    self.emit(QtCore.SIGNAL("download_error(PyObject)"), error_text)
+                    return
+                except requests.exceptions.HTTPError as e:
+                    print(e)
+                    error_text = "An invalid HTTP response occured, check your internet connection. For further help contact the author."
+                    self.emit(QtCore.SIGNAL("download_error(PyObject)"), error_text)
+                    return
+                except requests.exceptions.RequestException as e:
+                    print(e)
+                    error_text = "An unknown network error occured, contact the author of the program on the Tribal Wars forums."
+                    self.emit(QtCore.SIGNAL("download_error(PyObject)"), error_text)
                     return
 
         try:
-            villages_dict = TWData.get_villages_dict(villages_data)
-            players_dict = TWData.get_players_dict(players_data)
+            villages_dict = TWData.get_villages_dict(villages_data_path)
+            players_dict = TWData.get_players_dict(players_data_path)
         except:
-            self.emit(QtCore.SIGNAL("download_error()"))
+            error_text = "An unknown error occured. Contact the author if needed."
+            self.emit(QtCore.SIGNAL("download_error(PyObject)"), error_text)
             return
 
         """Emits signal with world data"""
-        world_data = [villages_dict, players_dict, config]
+        world_data = [villages_dict, players_dict, config_path]
         self.emit(QtCore.SIGNAL("get_world_data(PyObject)"), world_data)
-
 
 class Window(QtGui.QMainWindow, MainUi):
 
     def __init__(self):
         super(Window, self).__init__()
-        self.setWindowTitle("ZeZe's TWTools")
-        self.setWindowIcon(QtGui.QIcon(Files.resource_path("images/icon.png")))
-        self.serverItems = Config_XML.server_box_items(Files.resource_path("config.xml"))
-        self.worldItems = Config_XML.world_box_items(Files.resource_path("config.xml"))
-
+        self.update_message()
+        self.servers_dict = {}
+        self.serverItems = servers
         self.setupUi()
-        self.on_combo_activated(self.serverItems[0])
-        self.app_data_folder()
-        self.world_data = None
-
         self.show()
 
-    def app_data_folder(self):
-        directory = Files.app_data_path()
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+        self.world_data = None
+        self.servers_update()
+        self.on_combo_activated(self.serverItems[0])
+
+    def update_message(self):
+        if update_needed(__version__):
+            QtGui.QMessageBox.information(
+                self,
+                "A new version is available!",
+                "A new version is available. Click <a href='https://forum.tribalwars.net/index.php?threads/zezes-twtools.278433/'>here</a> to update. ")
 
     def village_finder(self):
         self.hide()
@@ -103,9 +138,9 @@ class Window(QtGui.QMainWindow, MainUi):
         self.hide()
 
     def backtiming_calculator(self):
-        try:
+        if self.world_data != None:
             config = self.world_data[2]
-        except:
+        else:
             config = None
         self.dialog = BacktimingCalculatorDialog(self, config)
         self.dialog.show()
@@ -120,30 +155,52 @@ class Window(QtGui.QMainWindow, MainUi):
 
     def on_combo_activated(self, server):
         self.worldBox.clear()
-        self.worldBox.addItems(self.worldItems[server])
+        self.worldBox.addItems(list(self.servers_dict[server].keys()))
+
+    def servers_update(self):
+        servers_json_path = os.path.join(app_data_path, "servers.json")
+        one_week = 604800
+
+        if not os.path.exists(servers_json_path):
+            download_dialog = ServersDownloadDialog(servers_json_path)
+            download_dialog.exec_()
+        else:
+            servers_json_modified_time = modified_time(servers_json_path)
+            current_time = datetime.now()
+            difference = current_time - servers_json_modified_time
+
+            if difference.seconds > one_week:
+                download_dialog = ServersDownloadDialog(servers_json_path)
+                download_dialog.exec_()
+
+        self.get_servers_dict()
+
+    def get_servers_dict(self):
+        servers_json_path = os.path.join(app_data_path, "servers.json")
+        with open(servers_json_path) as f:
+            self.servers_dict = json.load(f, object_pairs_hook=collections.OrderedDict)
 
     def download_function(self):
         self.downloadButton.setEnabled(False)
+        self.downloadButton.setText("Downloading....")
         server = self.serverBox.currentText()
-        world = Config_XML.get_world_url(Files.resource_path("config.xml"), server, self.worldBox.currentText())
-        url = "https://" + world + "." + server
+        world = self.worldBox.currentText()
+        url = self.servers_dict[server][world]
 
         self.get_download_thread = DownloadThread(url)
         self.connect(self.get_download_thread, QtCore.SIGNAL("get_world_data(PyObject)"), self.get_world_data)
-        self.connect(self.get_download_thread, QtCore.SIGNAL("download_error()"), self.download_error)
+        self.connect(self.get_download_thread, QtCore.SIGNAL("download_error(PyObject)"), self.download_error)
         self.get_download_thread.start()
 
-    def download_error(self):
-        QtGui.QMessageBox.critical(
-            self,
-            "Download Error",
-            "Please check your internet connection and try again.")
+    def download_error(self, error_text):
+        QtGui.QMessageBox.critical(self, "Download Error", error_text)
+        self.downloadButton.setText("Download World Data")
         self.downloadButton.setEnabled(True)
 
     def get_world_data(self, world_data):
         self.world_data = world_data
         self.downloadButton.setEnabled(True)
-
+        self.downloadButton.setText("Download World Data")
 
 def main():
     app = QtGui.QApplication(sys.argv)

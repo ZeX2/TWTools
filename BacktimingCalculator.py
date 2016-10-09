@@ -1,13 +1,15 @@
 from PySide import QtGui, QtCore
-
 import sys
 import math
 import datetime
 import time
+import re
 
 from design import BcUi
-from Data import Files, TWData
-from CustomDesign import Validator, CustomInputDialog
+from CustomDesign import Validator
+from CustomDialogs import SpeedInputDialog
+from Functions import resource_path
+from WorldsData import TWData
 
 class BacktimeThread(QtCore.QThread):
 	def __init__(self, world_speed, unit_speed, origin, destination, unit, arrival):
@@ -45,7 +47,6 @@ class BacktimeThread(QtCore.QThread):
 		rounded_seconds = round(minutes * 60)
 
 		travel_time = datetime.timedelta(seconds = rounded_seconds)
-		print(travel_time)
 		arrival_time = self.arrival.toPython()
 
 		backtime = arrival_time + travel_time
@@ -56,10 +57,6 @@ class BacktimeThread(QtCore.QThread):
 class BacktimingCalculatorDialog(QtGui.QDialog, BcUi, Validator):
 	def __init__(self, other_window, config):
 		super(BacktimingCalculatorDialog, self).__init__()
-		self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-		self.setGeometry(50, 50, 600, 300)
-		self.setWindowTitle("ZeZe's TWTools - Backtiming Calculator")
-		self.setWindowIcon(QtGui.QIcon(Files.resource_path("images/icon.png")))
 		self.other_window = other_window
 		self.config = config
 		self.setupUi()
@@ -67,12 +64,13 @@ class BacktimingCalculatorDialog(QtGui.QDialog, BcUi, Validator):
 		self.originEdit.textChanged.connect(self.check_coord_state)
 		self.destinationEdit.textChanged.connect(self.check_coord_state)
 
-		self.world_speed = 0
-		self.unit_speed = 0
+		self.world_speed = 1
+		self.unit_speed = 1
+		self.update_speed_labels()
 
 	def manual_function(self, enabled):
 		if enabled:
-			input_dialog = CustomInputDialog()
+			input_dialog = SpeedInputDialog()
 			if input_dialog.exec_():
 				self.world_speed, self.unit_speed = input_dialog.get_data()
 				self.update_speed_labels()
@@ -90,6 +88,26 @@ class BacktimingCalculatorDialog(QtGui.QDialog, BcUi, Validator):
 		self.unit_speedLabel.setText("Unit Speed: " + str(self.unit_speed))
 
 	def backtime_function(self):
+		if ((self.world_speed == 0) and (self.unit_speed == 0)):
+			print("asdasd")
+			return
+
+		origin_coord = self.originEdit.text()
+		destination_coord = self.destinationEdit.text()
+
+		coord_pattern = re.compile("\d{3}\|\d{3}")
+		origin_validity = coord_pattern.match(origin_coord)
+		destination_validity = coord_pattern.match(destination_coord)
+
+		if ((destination_validity is None) or (origin_validity is None)):
+			QtGui.QMessageBox.critical(
+                self,
+                "Search Around Error",
+                "Please enter a valid coordinate such as 556|494",
+                QtGui.QMessageBox.Ok)
+			self.calculateButton.setEnabled(True)
+			return
+
 		self.calculateButton.setEnabled(False)
 
 		world_speed = self.world_speed
