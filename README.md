@@ -19,6 +19,6 @@ A list of planned features, any suggestions and all feedback is appreciated.
 
 
 #### Other
-Supports all Tribal Wars servers.
+Supports **all** Tribal Wars servers.
 
 *Thanks to William for helping with graphics.*
