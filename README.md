@@ -19,6 +19,6 @@ A list of planned features, any suggestions and all feedback is appreciated.
 
 
 #### Other
-Currently only works for .us, .co.uk and .net. All servers are to be added soon.
+Supports all Tribal Wars servers.
 
 *Thanks to William for helping with graphics.*
