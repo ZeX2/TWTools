@@ -16,7 +16,7 @@ class ExtractThread(QtCore.QThread):
 
     def run(self):
         coord_pattern = re.compile("\d{3}\|\d{3}")
-        coords_list = re.findall(coord_pattern, self.text)
+        coords_list = list(set(re.findall(coord_pattern, self.text)))
         coords_string = ""
         for coord in coords_list:
             coords_string = coords_string + coord + " "

@@ -12,6 +12,7 @@ class TWData(object):
     def download_data(path, url):
         villages_url = url + "/map/village.txt.gz"
         players_url = url + "/map/player.txt.gz"
+        odd_url = url + "/map/kill_def.txt.gz"
         config_url = url + "/interface.php?func=get_config"
         url = url.replace("https://", "")
 
@@ -29,6 +30,16 @@ class TWData(object):
         players_save = path + "\\" + "player.txt.gz"
         with open(players_save, "wb") as f:
             response = requests.get(players_url, stream=True)
+            response.raise_for_status()
+            if not response.ok:
+                pass
+            for block in response.iter_content(1024):
+                f.write(block)
+        
+        """ODD data"""
+        odd_save = path + "\\" + "kill_def.txt.gz"
+        with open(odd_save, "wb") as f:
+            response = requests.get(odd_url, stream=True)
             response.raise_for_status()
             if not response.ok:
                 pass
@@ -116,3 +127,22 @@ class TWData(object):
                     player_rank]
                 players_dict[int(player_id)] = player_array
         return players_dict
+
+    def get_odd_dict(odd_data):
+        odd_dict = {}
+
+        with gzip.open(odd_data) as f:
+            data = f.read()
+            odd_list = data.splitlines()
+
+            for odd in odd_list:
+                odd_decoded = odd.decode("utf-8")
+                odd_array = odd_decoded.split(",")
+
+                odd_rank = odd_array[0]
+                odd_player_id = odd_array[1]
+                odd_points = odd_array[2]
+
+                odd_array = [odd_player_id, odd_rank, odd_points]
+                odd_dict[int(odd_player_id)] = odd_array
+        return odd_dict

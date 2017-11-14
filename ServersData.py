@@ -20,7 +20,7 @@ servers = [
     "triburile.ro",
     "voyna-plemyon.ru",
     "fyletikesmaxes.gr",
-    "tribalwars.no.com",
+    "no.tribalwars.com",
     "divoke-kmene.sk",
     "klanhaboru.hu",
     "tribalwars.dk",
@@ -60,7 +60,8 @@ class ServersDownloadThread(QtCore.QThread):
             server_text = "Fetching " + server + " worlds:"
             self.emit(QtCore.SIGNAL("update_progress_text(PyObject)"), server_text)
 
-            server_backend_url = "https://www." + server + backend
+            server_backend_url = "http://www." + server + backend
+            print(server_backend_url)
 
             try:
                 r = requests.get(server_backend_url)

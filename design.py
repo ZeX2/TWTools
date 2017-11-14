@@ -126,7 +126,7 @@ class MainUi(object):
                 resource_path("images/farm_thief.png")),
             QtGui.QPixmap(
                 resource_path("images/farm_thief.png")))
-        self.ftButton.clicked.connect(self.coming_soon)
+        self.ftButton.clicked.connect(self.farm_thief)
         self.horizontalLayout_4.addWidget(self.ftButton)
 
         self.spacer_2 = QtGui.QSpacerItem(
@@ -648,3 +648,30 @@ class DdUi(object):
         self.cancelButton = QtGui.QPushButton("Cancel")
         self.horizontalLayout.addWidget(self.cancelButton)
         self.cancelButton.clicked.connect(self.cancel_function)
+
+class FtUi(object):
+
+    def setupUi(self):
+        """Bruh"""
+        self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+        self.setGeometry(50, 50, 600, 300)
+        self.setWindowTitle("ZeZe's TWTools - Backtiming Calculator")
+        self.setWindowIcon(QtGui.QIcon(resource_path("images/icon.png")))
+
+        """Background color"""
+        self.backgroundPalette = QtGui.QPalette()
+        self.backgroundColor = QtGui.QColor(217, 204, 170)
+        self.backgroundPalette.setColor(
+            QtGui.QPalette.Background, self.backgroundColor)
+        self.setPalette(self.backgroundPalette)
+
+        """Main layout & return to main menu button"""
+        self.verticalLayout = QtGui.QVBoxLayout(self)
+
+        self.buttonLayout = QtGui.QHBoxLayout(self)
+        self.verticalLayout.addLayout(self.buttonLayout)
+        self.returnButton = QtGui.QPushButton("  Return to the Main Menu  ", self)
+        self.returnButton.clicked.connect(self.return_function)
+        self.buttonLayout.addWidget(self.returnButton)
+        self.buttonSpacer = QtGui.QSpacerItem(0, 0, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.buttonLayout.addItem(self.buttonSpacer)
