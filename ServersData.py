@@ -10,7 +10,6 @@ servers = [
     "tribalwars.co.uk",
     "tribalwars.us",
     "tribalwars.se",
-    "tribalwarsmasters.net",
     "tribalwars.nl",
     "staemme.ch",
     "plemiona.pl",
