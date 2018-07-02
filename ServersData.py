@@ -22,7 +22,6 @@ servers = [
     "no.tribalwars.com",
     "divoke-kmene.sk",
     "klanhaboru.hu",
-    "tribalwars.dk",
     "tribals.it",
     "klanlar.org",
     "guerretribale.fr",
