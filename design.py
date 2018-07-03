@@ -629,7 +629,7 @@ class DdUi(object):
         """Download bar"""
         self.progress_bar = QtGui.QProgressBar(self)
         self.progress_bar.setMinimum(0)
-        self.progress_bar.setMaximum(27)
+        self.progress_bar.setMaximum(26)
         self.progress_bar.setValue(0)
         self.progress_bar.setFormat("%v / %m")
         self.verticalLayout.addWidget(self.progress_bar)
