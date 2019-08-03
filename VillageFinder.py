@@ -1,4 +1,4 @@
-from PySide import QtGui, QtCore
+from PySide2 import QtGui, QtCore, QtWidgets
 from io import BytesIO
 import urllib.request
 import urllib.parse
@@ -179,7 +179,7 @@ class CoordsThread(QtCore.QThread):
         self.emit(QtCore.SIGNAL("update_coords(PyObject)"), coords)
 
 
-class VillageFinderDialog(QtGui.QDialog, VfUi, Validator):
+class VillageFinderDialog(QtWidgets.QDialog, VfUi, Validator):
 
     def __init__(self, other_window, world_data):
         super(VillageFinderDialog, self).__init__()
@@ -213,47 +213,47 @@ class VillageFinderDialog(QtGui.QDialog, VfUi, Validator):
             return
 
         if coord_validity is None:
-            QtGui.QMessageBox.critical(
+            QtWidgets.QMessageBox.critical(
                 self,
                 "Search Around Error",
                 "Please enter a valid coordinate such as 556|494",
-                QtGui.QMessageBox.Ok)
+                QtWidgets.QMessageBox.Ok)
             self.goButton.setEnabled(True)
             return
 
         try:
             if int(min_points) < 0 or int(max_points) < 0:
-                QtGui.QMessageBox.critical(
+                QtWidgets.QMessageBox.critical(
                     self,
                     "Points Error",
                     "Please enter a number greater than or equal to 0.",
-                    QtGui.QMessageBox.Ok)
+                    QtWidgets.QMessageBox.Ok)
                 self.goButton.setEnabled(True)
                 return
         except ValueError:
-            QtGui.QMessageBox.critical(
+            QtWidgets.QMessageBox.critical(
                 self,
                 "Points Error",
                 "Please enter a valid number",
-                QtGui.QMessageBox.Ok)
+                QtWidgets.QMessageBox.Ok)
             self.goButton.setEnabled(True)
             return
 
         try:
             if int(min_range) < 0 or int(max_range) < 0:
-                QtGui.QMessageBox.critical(
+                QtWidgets.QMessageBox.critical(
                     self,
                     "Range Error",
                     "Please enter a number greater than or equal to 0.",
-                    QtGui.QMessageBox.Ok)
+                    QtWidgets.QMessageBox.Ok)
                 self.goButton.setEnabled(True)
                 return
         except ValueError:
-            QtGui.QMessageBox.critical(
+            QtWidgets.QMessageBox.critical(
                 self,
                 "Range Error",
                 "Please enter a valid number",
-                QtGui.QMessageBox.Ok)
+                QtWidgets.QMessageBox.Ok)
             self.goButton.setEnabled(True)
             return
 
@@ -304,11 +304,11 @@ class VillageFinderDialog(QtGui.QDialog, VfUi, Validator):
         coord = row[2]
         points = int(row[3])
 
-        self.tableWidget.setItem(rowPosition, 0, QtGui.QTableWidgetItem(player))
-        self.tableWidget.setItem(rowPosition, 1, QtGui.QTableWidgetItem(name))
-        self.tableWidget.setItem(rowPosition, 2, QtGui.QTableWidgetItem(coord))
+        self.tableWidget.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(player))
+        self.tableWidget.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(name))
+        self.tableWidget.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(coord))
 
-        points_item = QtGui.QTableWidgetItem()
+        points_item = QtWidgets.QTableWidgetItem()
         points_item.setData(QtCore.Qt.DisplayRole, points)
         self.tableWidget.setItem(rowPosition, 3, points_item)
 
@@ -318,11 +318,11 @@ class VillageFinderDialog(QtGui.QDialog, VfUi, Validator):
         self.goButton.setEnabled(True)
 
     def no_data_error(self):
-        QtGui.QMessageBox.critical(
+        QtWidgets.QMessageBox.critical(
             self,
             "World Data Error",
             "There is no world data! Please return to the main window and download the world data.",
-            QtGui.QMessageBox.Ok)
+            QtWidgets.QMessageBox.Ok)
         self.goButton.setEnabled(True)
 
     def plain_function(self):

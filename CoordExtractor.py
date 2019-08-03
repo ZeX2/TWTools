@@ -1,4 +1,4 @@
-from PySide import QtGui, QtCore
+from PySide2 import QtGui, QtCore, QtWidgets
 import sys
 import re
 
@@ -25,7 +25,7 @@ class ExtractThread(QtCore.QThread):
         self.emit(QtCore.SIGNAL("get_coords(PyObject)"), coords_string)
 
 
-class CoordExtractorDialog(QtGui.QDialog, CeUi):
+class CoordExtractorDialog(QtWidgets.QDialog, CeUi):
 
     def __init__(self, other_window):
         super(CoordExtractorDialog, self).__init__()

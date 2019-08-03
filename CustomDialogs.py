@@ -1,12 +1,12 @@
-from PySide import QtGui, QtCore
+from PySide2 import QtGui, QtCore, QtWidgets
 from design import SidUi, DdUi
-from ServersData import ServersDownloadThread
+from ServersData import ServersDownloadThread, servers
 import sys
 
-class SpeedInputDialog(QtGui.QDialog, SidUi):
+class SpeedInputDialog(QtWidgets.QDialog, SidUi):
     
     def __init__(self):
-        QtGui.QDialog.__init__(self)
+        QtWidgets.QDialog.__init__(self)
         self.setupUi()
 
     def get_data(self):
@@ -19,11 +19,12 @@ class SpeedInputDialog(QtGui.QDialog, SidUi):
         self.setGeometry(geom)
 
 
-class ServersDownloadDialog(QtGui.QDialog, DdUi):
+class ServersDownloadDialog(QtWidgets.QDialog, DdUi):
 
     def __init__(self, servers_json_path):
-        QtGui.QDialog.__init__(self)
+        QtWidgets.QDialog.__init__(self)
         self.downloaded = False
+        self.servers_amount = len(servers)
         self.setupUi()
         self.servers_json_path = servers_json_path
         self.servers_download_function()
@@ -49,25 +50,25 @@ class ServersDownloadDialog(QtGui.QDialog, DdUi):
 
         self.downloaded = True
 
-        self.okButton = QtGui.QPushButton("Ok")
+        self.okButton = QtWidgets.QPushButton("Ok")
         self.horizontalLayout.addWidget(self.okButton)
         self.okButton.clicked.connect(self.ok_function)
 
     def cancel_function(self):
-        reply = QtGui.QMessageBox.question(self, 'Message', 
-                        "Are you sure that you want to cancel downloading? This will exit the program.", QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+        reply = QtWidgets.QMessageBox.question(self, 'Message', 
+                        "Are you sure that you want to cancel downloading? This will exit the program.", QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
 
-        if reply == QtGui.QMessageBox.Yes:
+        if reply == QtWidgets.QMessageBox.Yes:
             sys.exit()
         
     def closeEvent(self, event):
         if self.downloaded:
             return event.accept()
 
-        reply = QtGui.QMessageBox.question(self, 'Message', 
-                        "The server config with the worlds is downloading, would you like to exit the program anyway?", QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+        reply = QtWidgets.QMessageBox.question(self, 'Message', 
+                        "The server config with the worlds is downloading, would you like to exit the program anyway?", QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
 
-        if reply == QtGui.QMessageBox.Yes:
+        if reply == QtWidgets.QMessageBox.Yes:
             event.accept()
             sys.exit()
         else:
@@ -77,5 +78,5 @@ class ServersDownloadDialog(QtGui.QDialog, DdUi):
         self.close()
 
     def download_error(self, error_text):
-        QtGui.QMessageBox.critical(self, "Download Error", error_text)
+        QtWidgets.QMessageBox.critical(self, "Download Error", error_text)
         sys.exit()

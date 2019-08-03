@@ -1,4 +1,4 @@
-from PySide import QtGui, QtCore
+from PySide2 import QtGui, QtCore, QtWidgets
 import sys
 import math
 import datetime
@@ -54,7 +54,7 @@ class BacktimeThread(QtCore.QThread):
 		data = [backtime, self.origin]
 		self.emit(QtCore.SIGNAL("update_backtime(PyObject)"), data)
 
-class BacktimingCalculatorDialog(QtGui.QDialog, BcUi, Validator):
+class BacktimingCalculatorDialog(QtWidgets.QDialog, BcUi, Validator):
 	def __init__(self, other_window, config):
 		super(BacktimingCalculatorDialog, self).__init__()
 		self.other_window = other_window
@@ -100,11 +100,11 @@ class BacktimingCalculatorDialog(QtGui.QDialog, BcUi, Validator):
 		destination_validity = coord_pattern.match(destination_coord)
 
 		if ((destination_validity is None) or (origin_validity is None)):
-			QtGui.QMessageBox.critical(
+			QtWidgets.QMessageBox.critical(
                 self,
                 "Search Around Error",
                 "Please enter a valid coordinate such as 556|494",
-                QtGui.QMessageBox.Ok)
+                QtWidgets.QMessageBox.Ok)
 			self.calculateButton.setEnabled(True)
 			return
 

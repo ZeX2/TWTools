@@ -1,4 +1,4 @@
-from PySide import QtCore, QtGui
+from PySide2 import QtCore
 from phpserialize import *
 import requests
 import json
@@ -9,7 +9,6 @@ servers = [
     "die-staemme.de",
     "tribalwars.co.uk",
     "tribalwars.us",
-    "tribalwars.se",
     "tribalwars.nl",
     "staemme.ch",
     "plemiona.pl",
@@ -27,10 +26,7 @@ servers = [
     "guerretribale.fr",
     "guerrastribales.es",
     "tribalwars.ae",
-    "vojnaplemen.si",
-    "plemena.com",
-    "tribalwars.asia",
-    "tribalwars.works"
+    "tribalwars.works",
 ]
 
 backend = "/backend/get_servers.php"
@@ -83,8 +79,17 @@ class ServersDownloadThread(QtCore.QThread):
                 self.emit(QtCore.SIGNAL("download_error(PyObject)"), error_text)
                 return
 
-            php_object = loads(dumps(r.text), array_hook=collections.OrderedDict)
-            worlds_dict = convert(unserialize(php_object, array_hook=collections.OrderedDict))
+
+            try:
+                php_object = loads(dumps(r.text), array_hook=collections.OrderedDict)
+                worlds_dict = convert(unserialize(php_object, array_hook=collections.OrderedDict))
+            except ValueError as e:
+                print(e)
+                error_text = "Looks like this server has been deleted or something else went wrong, skipping..."
+                self.emit(QtCore.SIGNAL("update_progress_text(PyObject)"), error_text)
+                self.emit(QtCore.SIGNAL("update_progress_bar(PyObject)"), n)
+                n += 1
+                continue
 
             for world_text in worlds_dict.keys():
                 self.emit(QtCore.SIGNAL("update_progress_text(PyObject)"), world_text)

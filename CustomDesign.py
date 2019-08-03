@@ -1,9 +1,9 @@
-from PySide import QtGui, QtCore
+from PySide2 import QtGui, QtCore, QtWidgets
 
 from Functions import resource_path
 
 
-class PicButton(QtGui.QAbstractButton):
+class PicButton(QtWidgets.QAbstractButton):
 
     def __init__(self, pixmap, pixmap_hover, pixmap_pressed, parent=None):
         super(PicButton, self).__init__(parent)

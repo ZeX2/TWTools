@@ -1,4 +1,4 @@
-from PySide import QtGui, QtCore
+from PySide2 import QtGui, QtCore, QtWidgets
 from io import BytesIO
 import urllib.request
 import urllib.parse
@@ -15,7 +15,7 @@ from WorldsData import TWData
 from CustomDesign import Validator
 from Functions import resource_path
 
-class FarmThiefDialog(QtGui.QDialog, FtUi):
+class FarmThiefDialog(QtWidgets.QDialog, FtUi):
 
     def __init__(self, other_window, world_data):
         super(FarmThiefDialog, self).__init__()

@@ -1,7 +1,7 @@
-__version__ = "0.6.2"
+__version__ = "0.7"
 __author__ = "ZeX2"
 
-from PySide import QtGui, QtCore
+from PySide2 import QtCore, QtWidgets
 from design import MainUi
 import sys
 import os
@@ -115,7 +115,7 @@ class DownloadThread(QtCore.QThread):
         world_data = [villages_dict, players_dict, odd_dict, config_path]
         self.emit(QtCore.SIGNAL("get_world_data(PyObject)"), world_data)
 
-class Window(QtGui.QMainWindow, MainUi):
+class Window(QtWidgets.QMainWindow, MainUi):
 
     def __init__(self):
         super(Window, self).__init__()
@@ -131,7 +131,7 @@ class Window(QtGui.QMainWindow, MainUi):
 
     def update_message(self):
         if update_needed(__version__):
-            QtGui.QMessageBox.information(
+            QtWidgets.QMessageBox.information(
                 self,
                 "A new version is available!",
                 "A new version is available. Click <a href='https://forum.tribalwars.net/index.php?threads/zezes-twtools.278433/'>here</a> to update. ")
@@ -161,11 +161,11 @@ class Window(QtGui.QMainWindow, MainUi):
         self.hide()
 
     def coming_soon(self):
-        QtGui.QMessageBox.critical(
+        QtWidgets.QMessageBox.critical(
             self,
             "Coming Soon",
             "This feature isn't available yet!",
-            QtGui.QMessageBox.Ok)
+            QtWidgets.QMessageBox.Ok)
 
     def on_combo_activated(self, server):
         self.worldBox.clear()
@@ -207,7 +207,7 @@ class Window(QtGui.QMainWindow, MainUi):
         self.get_download_thread.start()
 
     def download_error(self, error_text):
-        QtGui.QMessageBox.critical(self, "Download Error", error_text)
+        QtWidgets.QMessageBox.critical(self, "Download Error", error_text)
         self.downloadButton.setText("Download World Data")
         self.downloadButton.setEnabled(True)
 
@@ -217,7 +217,7 @@ class Window(QtGui.QMainWindow, MainUi):
         self.downloadButton.setText("Download World Data")
 
 def main():
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     MainWindow = Window()
     app.exec_()
 
